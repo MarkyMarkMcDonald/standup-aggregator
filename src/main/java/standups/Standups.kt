@@ -1,3 +1,5 @@
+package standups
+
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.time.LocalDate

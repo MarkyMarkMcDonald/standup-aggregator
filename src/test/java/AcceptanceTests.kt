@@ -5,6 +5,9 @@ import java.io.InputStreamReader
 import java.util.stream.Collectors
 import org.assertj.core.api.KotlinAssertions.assertThat
 import org.junit.Before
+import standups.Standups
+import standups.ThingsMarkCaresAbout
+import standups.WhiteboardDotCom
 
 
 class AcceptanceTests {

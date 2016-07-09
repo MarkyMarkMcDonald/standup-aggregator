@@ -13,13 +13,21 @@ buildscript {
 apply plugin: 'kotlin'
 
 repositories {
+    mavenLocal()
     jcenter()
     mavenCentral()
+    maven {
+        url 'http://dl.bintray.com/kotlinx/kotlinx'
+    }
 }
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'org.jsoup:jsoup:1.9.2'
+    compile 'org.jetbrains.kotlinx:kotlinx.html.jvm:0.5.8'
+    compile 'com.sparkjava:spark-core:2.5'
+    compile 'commons-httpclient:commons-httpclient:3.1'
+
     testCompile 'junit:junit:4.12'
     testCompile 'net.wuerl.kotlin:assertj-core-kotlin:0.1.1'
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
