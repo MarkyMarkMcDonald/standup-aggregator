@@ -7,7 +7,6 @@ import org.apache.commons.httpclient.methods.GetMethod
 import spark.Spark.*
 import standups.StandupItem
 import standups.Standups
-import standups.ThingsMarkCaresAbout
 import standups.WhiteboardDotCom
 
 object StandupsMarkCaresAbout {

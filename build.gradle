@@ -11,6 +11,17 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
+apply plugin: 'application'
+
+mainClassName = 'web.StandupsMarkCaresAbout'
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'web.StandupsMarkCaresAbout'
+    }
+    // Include all [kotlin] files in final jar
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}
 
 repositories {
     mavenLocal()
