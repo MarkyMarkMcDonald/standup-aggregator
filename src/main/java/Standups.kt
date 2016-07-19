@@ -10,15 +10,11 @@ interface WhiteboardDotCom {
 
 class Standups(private val whiteboardDotCom: WhiteboardDotCom) {
 
-    fun aggregate(standupIds: List<Int>): ThingsMarkCaresAbout {
-        return standupIds
-                .map(mostRecentPost())
-                .filterNotNull()
-                .map(thingsMarkCaresAbout())
-                .reduce(combineUnderlyingLists())
+    fun mostRecentFromEachStandup(standupIds: List<Int>): ThingsMarkCaresAbout {
+        throw NotImplementedError()
     }
 
-    private fun mostRecentPost(): (Int) -> Post? {
+    private fun extractPosts(): (Int) -> List<Post> {
         return { id ->
             val archivedPostsText = whiteboardDotCom.archivedPostsByStandupId(id)
             val archivedPostsDoc = Jsoup.parse(archivedPostsText)
@@ -29,8 +25,7 @@ class Standups(private val whiteboardDotCom: WhiteboardDotCom) {
                         val postId = dataElements[0].select("a").attr("href").split("/").last().toInt()
                         val postedAt = LocalDate.parse(dataElements[2].text(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss z"))
                         Post(postId, postedAt)
-                    }.sortedByDescending(Post::postedAt)
-                    .firstOrNull()
+                    }
         }
     }
 
@@ -40,14 +35,6 @@ class Standups(private val whiteboardDotCom: WhiteboardDotCom) {
             val postDoc = Jsoup.parse(postText)
             val helps = postDoc.select(".help .item").map(standupItem())
             val interestings = postDoc.select(".interesting .item").map(standupItem())
-            ThingsMarkCaresAbout(helps, interestings)
-        }
-    }
-
-    private fun combineUnderlyingLists(): (ThingsMarkCaresAbout, ThingsMarkCaresAbout) -> ThingsMarkCaresAbout {
-        return { allThings, oneStandupOfThings ->
-            val helps = allThings.helps + oneStandupOfThings.helps
-            val interestings = allThings.interestings + oneStandupOfThings.interestings
             ThingsMarkCaresAbout(helps, interestings)
         }
     }

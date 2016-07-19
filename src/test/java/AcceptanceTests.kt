@@ -17,14 +17,14 @@ class AcceptanceTests {
     }
 
     @Test
-    fun EventsAndHelpsFromMultipleOffices() {
-        val thingsMarkCaresAbout = standups.aggregate(listOf(NEW_YORK_STANDUP_ID, StubbedWhiteboardDotCom.DC_STANDUP_ID))
+    fun eventsAndHelpsFromMultipleOffices_ForEachLatestStandup() {
+        val thingsMarkCaresAbout = standups.mostRecentFromEachStandup(listOf(NEW_YORK_STANDUP_ID, StubbedWhiteboardDotCom.DC_STANDUP_ID))
         containsNYAndDcHelpsAndInterestings(thingsMarkCaresAbout)
     }
 
     @Test
-    fun OneOfficeDoesNotHaveStandups() {
-        val thingsMarkCaresAbout = standups.aggregate(listOf(StubbedWhiteboardDotCom.NO_ARCHIVED_POSTS_STANDUP_ID, NEW_YORK_STANDUP_ID, StubbedWhiteboardDotCom.DC_STANDUP_ID))
+    fun oneOfficeDoesNotHaveStandups() {
+        val thingsMarkCaresAbout = standups.mostRecentFromEachStandup(listOf(StubbedWhiteboardDotCom.NO_ARCHIVED_POSTS_STANDUP_ID, NEW_YORK_STANDUP_ID, StubbedWhiteboardDotCom.DC_STANDUP_ID))
         containsNYAndDcHelpsAndInterestings(thingsMarkCaresAbout)
     }
 
