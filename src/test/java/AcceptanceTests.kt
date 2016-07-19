@@ -5,6 +5,7 @@ import java.io.InputStreamReader
 import java.util.stream.Collectors
 import org.assertj.core.api.KotlinAssertions.assertThat
 import org.junit.Before
+import org.junit.Ignore
 
 
 class AcceptanceTests {
@@ -23,7 +24,8 @@ class AcceptanceTests {
     }
 
     @Test
-    fun OneOfficeDoesNotHaveStandups() {
+    @Ignore
+    fun WhenOneOfficeDoesNotHaveStandups() {
         val thingsMarkCaresAbout = standups.aggregate(listOf(StubbedWhiteboardDotCom.NO_ARCHIVED_POSTS_STANDUP_ID, NEW_YORK_STANDUP_ID, StubbedWhiteboardDotCom.DC_STANDUP_ID))
         containsNYAndDcHelpsAndInterestings(thingsMarkCaresAbout)
     }
@@ -46,7 +48,6 @@ class AcceptanceTests {
 }
 
 class StubbedWhiteboardDotCom : WhiteboardDotCom {
-
     companion object {
         private fun fixtureByName(name: String): String {
             val fileStream = StubbedWhiteboardDotCom::class.java.classLoader.getResourceAsStream("fixtures/" + name)
@@ -78,5 +79,4 @@ class StubbedWhiteboardDotCom : WhiteboardDotCom {
         }
         throw RuntimeException("Failed to load list of archived posts")
     }
-
 }
