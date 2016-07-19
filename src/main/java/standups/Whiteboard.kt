@@ -1,20 +1,12 @@
+package standups
+
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-interface WhiteboardDotCom {
-    fun postById(id: Int): String
-    fun archivedPostsByStandupId(id: Int): String
-}
-
-class Standups(private val whiteboardDotCom: WhiteboardDotCom) {
-
-    fun mostRecentFromEachStandup(standupIds: List<Int>): ThingsMarkCaresAbout {
-        throw NotImplementedError()
-    }
-
-    private fun extractPosts(): (Int) -> List<Post> {
+class Whiteboard(private val whiteboardDotCom: WhiteboardDotCom) : Standups.Whiteboard {
+    override fun extractPosts(): (Int) -> List<Post> {
         return { id ->
             val archivedPostsText = whiteboardDotCom.archivedPostsByStandupId(id)
             val archivedPostsDoc = Jsoup.parse(archivedPostsText)
@@ -29,7 +21,7 @@ class Standups(private val whiteboardDotCom: WhiteboardDotCom) {
         }
     }
 
-    private fun thingsMarkCaresAbout(): (Post) -> ThingsMarkCaresAbout {
+    override fun thingsMarkCaresAbout(): (Post) -> ThingsMarkCaresAbout {
         return { post ->
             val postText = whiteboardDotCom.postById(post.id)
             val postDoc = Jsoup.parse(postText)
@@ -48,20 +40,7 @@ class Standups(private val whiteboardDotCom: WhiteboardDotCom) {
         }
     }
 
+    private fun <E> List<E>.skipFirst(): List<E> {
+        return this.subList(1, this.size)
+    }
 }
-
-fun <E> List<E>.skipFirst(): List<E> {
-    return this.subList(1, this.size)
-}
-
-private data class Post(val id: Int, val postedAt: LocalDate)
-
-private data class Standup(val helps: List<StandupItem> = listOf(),
-                           val interestings: List<StandupItem> = listOf())
-
-data class ThingsMarkCaresAbout(
-        val helps: List<StandupItem> = listOf(),
-        val interestings: List<StandupItem> = listOf()
-)
-
-data class StandupItem(val title: String, val description: String, val author: String)
