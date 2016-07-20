@@ -2,7 +2,7 @@ package standups
 
 import java.time.LocalDate
 
-class Standups(private val whiteboardDotCom: WhiteboardDotCom) {
+public class Standups(private val whiteboardDotCom: WhiteboardDotCom) {
 
     internal interface Whiteboard {
         fun thingsMarkCaresAbout(standupPostIdentifier: StandupPostIdentifier): ThingsMarkCaresAbout
@@ -19,9 +19,18 @@ class Standups(private val whiteboardDotCom: WhiteboardDotCom) {
     }
 
     private fun merge(thingsMarkCaresAbouts: List<ThingsMarkCaresAbout>): ThingsMarkCaresAbout {
+        val methods = ThingsMarkCaresAbout::class.members.filter { member -> member.name.contains("component") }
+
         return thingsMarkCaresAbouts.reduce {
             thingsMarkCaredAboutSoFar, someThingsMarkCaresAbout ->
-                ThingsMarkCaresAbout(thingsMarkCaredAboutSoFar.helps + someThingsMarkCaresAbout.helps, thingsMarkCaredAboutSoFar.interestings + someThingsMarkCaresAbout.interestings)
+
+            val firstHelps = methods[0].call(thingsMarkCaredAboutSoFar) as List<StandupItem>
+            val secondHelps = methods[0].call(someThingsMarkCaresAbout) as  List<StandupItem>
+
+            val firstInterestings = methods[1].call(thingsMarkCaredAboutSoFar) as List<StandupItem>
+            val secondInterestings = methods[1].call(someThingsMarkCaresAbout) as  List<StandupItem>
+
+            ThingsMarkCaresAbout(firstHelps + secondHelps, firstInterestings + secondInterestings)
         }
     }
 }
