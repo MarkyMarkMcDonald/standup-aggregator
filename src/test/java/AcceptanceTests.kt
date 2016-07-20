@@ -73,13 +73,13 @@ class StubbedWhiteboardDotCom : WhiteboardDotCom {
         throw RuntimeException("Failed to load archived post - This stub only knows about the most recent post per office")
     }
 
-    override fun archivedPostsByStandupId(id: Int): String {
+    override fun archivedPostsByLocationId(id: Int): String {
         when (id) {
             NEW_YORK_LOCATION_ID -> return fixtureByName("ny_archived_posts.html")
             DC_LOCATION_ID -> return fixtureByName("dc_archived_posts.html")
             LOCATION_WITHOUT_ARCHIVED_POSTS_ID -> return fixtureByName("no_archived_posts.html")
         }
-        throw RuntimeException("Failed to load list of archived posts")
+        throw RuntimeException("Failed to load list of archived posts - This stub only knows about DC, NY, and a sentinel ID")
     }
 
 }

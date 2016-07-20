@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter
 
 class Whiteboard(private val whiteboardDotCom: WhiteboardDotCom) : Standups.Whiteboard {
     override fun extractPosts(locationId: Int): List<StandupPostIdentifier> {
-        val archivedPostsText = whiteboardDotCom.archivedPostsByStandupId(locationId)
+        val archivedPostsText = whiteboardDotCom.archivedPostsByLocationId(locationId)
         val archivedPostsDoc = Jsoup.parse(archivedPostsText)
         return archivedPostsDoc.select("table tr")
                 .skipFirst()
