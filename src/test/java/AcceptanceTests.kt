@@ -1,3 +1,5 @@
+import StubbedWhiteboardDotCom.Companion.DC_LOCATION_ID
+import StubbedWhiteboardDotCom.Companion.LOCATION_WITHOUT_ARCHIVED_STANDUPS_ID
 import StubbedWhiteboardDotCom.Companion.NEW_YORK_LOCATION_ID
 import org.junit.Test
 import java.io.BufferedReader
@@ -21,13 +23,13 @@ class AcceptanceTests {
 
     @Test
     fun eventsAndHelpsFromMultipleOffices_ForEachLatestStandup() {
-        val thingsMarkCaresAbout = standups.mostRecentFromEachStandup(listOf(NEW_YORK_LOCATION_ID, StubbedWhiteboardDotCom.DC_LOCATION_ID))
+        val thingsMarkCaresAbout = standups.mostRecentFromEachStandup(listOf(NEW_YORK_LOCATION_ID, DC_LOCATION_ID))
         containsNYAndDcHelpsAndInterestings(thingsMarkCaresAbout)
     }
 
     @Test
-    fun oneOfficeDoesNotHaveStandups() {
-        val thingsMarkCaresAbout = standups.mostRecentFromEachStandup(listOf(StubbedWhiteboardDotCom.LOCATION_WITHOUT_ARCHIVED_POSTS_ID, NEW_YORK_LOCATION_ID, StubbedWhiteboardDotCom.DC_LOCATION_ID))
+    fun excludingOfficesWithoutStandups() {
+        val thingsMarkCaresAbout = standups.mostRecentFromEachStandup(listOf(LOCATION_WITHOUT_ARCHIVED_STANDUPS_ID, NEW_YORK_LOCATION_ID, DC_LOCATION_ID))
         containsNYAndDcHelpsAndInterestings(thingsMarkCaresAbout)
     }
 
@@ -59,25 +61,25 @@ class StubbedWhiteboardDotCom : WhiteboardDotCom {
 
         val NEW_YORK_LOCATION_ID = 2
         val DC_LOCATION_ID = 28
-        val LOCATION_WITHOUT_ARCHIVED_POSTS_ID = -1
+        val LOCATION_WITHOUT_ARCHIVED_STANDUPS_ID = -1
 
-        val NY_MOST_RECENT_POST_ID = 6185
-        val DC_MOST_RECENT_POST_ID = 6212
+        val NY_MOST_RECENT_STANDUP_ID = 6185
+        val DC_MOST_RECENT_STANDUP_ID = 6212
     }
 
-    override fun postById(id: Int): String {
+    override fun standupById(id: Int): String {
         when (id) {
-            NY_MOST_RECENT_POST_ID -> return fixtureByName("ny_most_recent_post.html")
-            DC_MOST_RECENT_POST_ID -> return fixtureByName("dc_most_recent_post.html")
+            NY_MOST_RECENT_STANDUP_ID -> return fixtureByName("ny_most_recent_post.html")
+            DC_MOST_RECENT_STANDUP_ID -> return fixtureByName("dc_most_recent_post.html")
         }
         throw RuntimeException("Failed to load archived post - This stub only knows about the most recent post per office")
     }
 
-    override fun archivedPostsByLocationId(id: Int): String {
-        when (id) {
+    override fun archivedStandupsTable(locationId: Int): String {
+        when (locationId) {
             NEW_YORK_LOCATION_ID -> return fixtureByName("ny_archived_posts.html")
             DC_LOCATION_ID -> return fixtureByName("dc_archived_posts.html")
-            LOCATION_WITHOUT_ARCHIVED_POSTS_ID -> return fixtureByName("no_archived_posts.html")
+            LOCATION_WITHOUT_ARCHIVED_STANDUPS_ID -> return fixtureByName("no_archived_posts.html")
         }
         throw RuntimeException("Failed to load list of archived posts - This stub only knows about DC, NY, and a sentinel ID")
     }

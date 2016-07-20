@@ -1,6 +1,6 @@
 package standups
 
 interface WhiteboardDotCom {
-    fun postById(id: Int): String
-    fun archivedPostsByLocationId(id: Int): String
+    fun standupById(id: Int): String
+    fun archivedStandupsTable(locationId: Int): String
 }
