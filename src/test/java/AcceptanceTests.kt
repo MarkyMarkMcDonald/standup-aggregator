@@ -68,20 +68,20 @@ class StubbedWhiteboardDotCom : WhiteboardDotCom {
     }
 
     override fun standupById(id: Int): String {
-        when (id) {
-            NY_MOST_RECENT_STANDUP_ID -> return fixtureByName("ny_most_recent_post.html")
-            DC_MOST_RECENT_STANDUP_ID -> return fixtureByName("dc_most_recent_post.html")
+        return when (id) {
+            NY_MOST_RECENT_STANDUP_ID -> fixtureByName("ny_most_recent_post.html")
+            DC_MOST_RECENT_STANDUP_ID -> fixtureByName("dc_most_recent_post.html")
+            else -> throw RuntimeException("Failed to load archived post - This stub only knows about the most recent post per office")
         }
-        throw RuntimeException("Failed to load archived post - This stub only knows about the most recent post per office")
     }
 
     override fun archivedStandupsTable(locationId: Int): String {
-        when (locationId) {
-            NEW_YORK_LOCATION_ID -> return fixtureByName("ny_archived_posts.html")
-            DC_LOCATION_ID -> return fixtureByName("dc_archived_posts.html")
-            LOCATION_WITHOUT_ARCHIVED_STANDUPS_ID -> return fixtureByName("no_archived_posts.html")
+        return when (locationId) {
+            NEW_YORK_LOCATION_ID -> fixtureByName("ny_archived_posts.html")
+            DC_LOCATION_ID -> fixtureByName("dc_archived_posts.html")
+            LOCATION_WITHOUT_ARCHIVED_STANDUPS_ID -> fixtureByName("no_archived_posts.html")
+            else -> throw RuntimeException("Failed to load list of archived posts - This stub only knows about DC, NY, and a sentinel ID")
         }
-        throw RuntimeException("Failed to load list of archived posts - This stub only knows about DC, NY, and a sentinel ID")
     }
 
 }
