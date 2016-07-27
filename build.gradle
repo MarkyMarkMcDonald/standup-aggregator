@@ -1,18 +1,21 @@
 buildscript {
-   ext.kotlin_version = '1.0.3'
+    ext.kotlin_version = '1.0.3'
 
-   repositories {
-     mavenCentral()
-   }
+    repositories {
+        mavenCentral()
+    }
 
-   dependencies {
-     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-   }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
 }
 
 apply plugin: 'kotlin'
 
 repositories {
+    maven {
+        url "http://repository.jetbrains.com/all"
+    }
     jcenter()
     mavenCentral()
 }
@@ -23,4 +26,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'net.wuerl.kotlin:assertj-core-kotlin:0.1.1'
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testCompile 'org.jetbrains.spek:spek:1.0.25'
 }
