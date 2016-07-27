@@ -23,4 +23,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     testCompile 'net.wuerl.kotlin:assertj-core-kotlin:0.1.1'
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testCompile "io.damo.aspen:aspen:2.0.0"
 }
